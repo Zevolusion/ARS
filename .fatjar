@@ -1,0 +1,14 @@
+#Fat Jar Configuration File
+#Sat Dec 22 14:35:10 CST 2018
+onejar.license.required=true
+manifest.classpath=
+manifest.removesigners=true
+onejar.checkbox=false
+jarname=ARS_fat.jar
+manifest.mergeall=true
+manifest.mainclass=view.Login
+manifest.file=<createnew>
+jarname.isextern=false
+onejar.expand=
+excludes=
+includes=
