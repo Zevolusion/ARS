@@ -9,7 +9,7 @@ public class DataConnect {
 
 	private static void init() throws ClassNotFoundException, SQLException {
 		Class.forName("com.mysql.jdbc.Driver");
-		String url = "jdbc:mysql://198.74.96.20:3306/ars?"
+		String url = "jdbc:mysql://173.82.186.106:3306/ars?"
 				+ "user=xyz&password=Xyz123..";
 		con = DriverManager.getConnection(url);
 	}

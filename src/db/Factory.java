@@ -343,35 +343,73 @@ public class Factory {
 		DataConnect.getStat().executeUpdate(sql);
 	}
 
-	public static ArrayList<Flight_info> ViewAllFlight(Com_info cm)
-			throws SQLException, ClassNotFoundException {
-		return cm.ViewAllFlight();
-	}
-
-	public static ArrayList<Plane> ViewAllPlane(Com_info cm)
-			throws SQLException, ClassNotFoundException {
-		return cm.ViewAllPlane();
+	//列出所有飞机
+	public static ArrayList<Plane> ViewAllPlane() throws SQLException,
+			ClassNotFoundException {
+		ArrayList<Plane> planes = new ArrayList<Plane>();
+		String sql = "select * from plane";
+		ResultSet rs = DataConnect.getStat().executeQuery(sql);
+		while (rs.next()) {
+			planes.add(new Plane(rs.getString(1), rs.getString(2), rs
+					.getString(3)));
+		}
+		return planes;
 	}
 	
-	public static ArrayList<Flight_info> ViewAllFlight(User_info u)
-			throws SQLException, ClassNotFoundException {
-		return u.ViewAllFlight();
+	//列出所有航班
+	public static ArrayList<Flight_info> ViewAllFlight() throws SQLException,
+			ClassNotFoundException {
+		ArrayList<Flight_info> flights = new ArrayList<Flight_info>();
+		String sql = "select * from flight_info";
+		ResultSet rs = DataConnect.getStat().executeQuery(sql);
+		while (rs.next()) {
+			flights.add(new Flight_info(rs.getString(1), rs.getString(2), rs
+					.getString(3), rs.getString(4), rs.getString(5), rs
+					.getString(6)));
+		}
+		return flights;
 	}
 
-	public static ArrayList<Admin> ViewAllUser(Admin au)
-			throws SQLException, ClassNotFoundException {
-		return au.ViewAllUser();
+	//列出所有用户
+	public static ArrayList<User_info> ViewAllUser() throws SQLException,
+			ClassNotFoundException {
+		ArrayList<User_info> users = new ArrayList<User_info>();
+		String sql = "select * from user";
+		ResultSet rs = DataConnect.getStat().executeQuery(sql);
+		while (rs.next()) {
+			users.add(new User_info(rs.getString(1), rs.getString(2), rs
+					.getString(3), rs.getString(4), rs.getString(5)));
+		}
+		return users;
 	}
 
-	public static Flight_info ViewFlightResult(User_info u, String des)
-			throws SQLException, ClassNotFoundException {
-		return u.ViewFlightResult(des);
+	//查询航班
+	public static Flight_info ViewFlightResult(String des) throws SQLException,
+			ClassNotFoundException {
+		Flight_info fr = null;
+		String sql = "select * from flight_info where destination='" + des
+				+ "'";
+		ResultSet rs = DataConnect.getStat().executeQuery(sql);
+		if (rs.next()) {
+			fr = new Flight_info(rs.getString(1), rs.getString(2), rs
+					.getString(3), rs.getString(4), rs.getString(5), rs
+					.getString(6));
+		}
+		return fr;
 	}
 
-	public static User_info ViewUserResult(Admin a, String name) throws SQLException, ClassNotFoundException {		
-		return a.ViewUserResult(name);
+	//查询用户
+	public static User_info ViewUserResult(String name) throws SQLException, ClassNotFoundException {
+		User_info ar = null;
+		String sql = "select * from user where uname='" + name
+				+ "'";
+		ResultSet rs = DataConnect.getStat().executeQuery(sql);
+		if (rs.next()) {
+			ar = new User_info(rs.getString(1), rs.getString(2),
+					rs.getString(3), rs.getString(4), rs.getString(5));
+		}
+		return ar;
 	}
-
 	
 
 }

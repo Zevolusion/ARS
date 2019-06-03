@@ -337,19 +337,19 @@ public class Login extends javax.swing.JFrame {
 				User_info u = Factory.Ulogin(email, pw);
 				if (u == null)
 					throw new Exception("用户不存在或密码错误");
-				new User(u).setVisible(true);
+				new User().setVisible(true);
 				this.dispose();
 			} else if (jRadioButton2.isSelected()) {
 				Com_info cm = Factory.Clogin(email, pw);
 				if (cm == null)
 					throw new Exception("用户不存在或密码错误");
-				new Company(cm).setVisible(true);
+				new Company().setVisible(true);
 				this.dispose();
 			} else if (jRadioButton3.isSelected()) {
 				Admin adm = Factory.Alogin(email, pw);
 				if (adm == null)
 					throw new Exception("用户不存在或密码错误");
-				new Administrator(adm).setVisible(true);
+				new Administrator().setVisible(true);
 				this.dispose();
 			}
 		} catch (Exception e) {

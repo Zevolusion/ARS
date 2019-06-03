@@ -71,18 +71,4 @@ public class Flight {
 	public void setDestination(String destination) {
 		this.destination = destination;
 	}
-
-//	public ArrayList<Ticket> ViewAllResult() throws SQLException,
-//			ClassNotFoundException {
-//		ArrayList<Ticket> results = new ArrayList<Ticket>();
-//		String sql = "select * from result where  =" + flightNumber;
-//		ResultSet rs = DataConnect.getStat().executeQuery(sql);
-//		while (rs.next()) {
-//			results.add(new Ticket(rs.getInt(1), rs.getString(2), rs.getInt(3),
-//					rs.getDouble(4), rs.getString(5), rs.getString(6), rs
-//							.getString(7), rs.getString(8)));
-//		}
-//		return results;
-//	}
-
 }

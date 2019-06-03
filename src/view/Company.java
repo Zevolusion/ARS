@@ -19,7 +19,6 @@ import javax.swing.table.DefaultTableModel;
 
 import db.Factory;
 
-import model.Com_info;
 import model.Flight_info;
 import model.Plane;
 
@@ -48,11 +47,9 @@ public class Company extends javax.swing.JFrame {
 		});
 	}
 
-	private static Com_info cm;
-
 	public static void getTable() throws SQLException, ClassNotFoundException {
 		String title[] = { "航班号", "日期", "出发时间", "到达时间", "始发机场", "目的地" };
-		ArrayList<Flight_info> flights = Factory.ViewAllFlight(cm);
+		ArrayList<Flight_info> flights = Factory.ViewAllFlight();
 		Object detail[][] = new Object[flights.size()][6];
 		for (int i = 0; i < flights.size(); i++) {
 			detail[i][0] = flights.get(i).getFlightNumber();
@@ -67,7 +64,7 @@ public class Company extends javax.swing.JFrame {
 
 	public static void getTable2() throws SQLException, ClassNotFoundException {
 		String title[] = { "飞机型号", "舱位数量", "航空公司" };
-		ArrayList<Plane> planes = Factory.ViewAllPlane(cm);
+		ArrayList<Plane> planes = Factory.ViewAllPlane();
 		Object detail[][] = new Object[planes.size()][3];
 		for (int i = 0; i < planes.size(); i++) {
 			detail[i][0] = planes.get(i).getP_num();
@@ -76,14 +73,31 @@ public class Company extends javax.swing.JFrame {
 		}
 		jTable2.setModel(new DefaultTableModel(detail, title));
 	}
+	//设置Jpanel背景
+	public class HomePanel extends JPanel {
+		ImageIcon icon;
+		Image img;
+		public HomePanel() {
+			icon = new ImageIcon(getClass().getResource("/img/main-bg-1.jpg"));
+			img = icon.getImage();
+		}
+
+		public void paintComponent(Graphics g) {
+			super.paintComponent(g);
+			// 下面这行是为了背景图片可以跟随窗口自行调整大小，可以自己设置成固定大小
+			g.drawImage(img, 0, 0, this.getWidth(), this.getHeight(), this);
+		}
+	}
 
 	@SuppressWarnings("static-access")
-	public Company(Com_info cm) {
-		this.cm = cm;
+	public Company() {
 		try {
 			initComponents();
 			this.setLocationRelativeTo(null);
 			this.setResizable(false);
+			getTable();
+			getTable2();
+			List1();
 		} catch (SQLException e1) {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
@@ -92,13 +106,6 @@ public class Company extends javax.swing.JFrame {
 			e1.printStackTrace();
 		}
 		this.setLocationRelativeTo(null);
-		try {
-			getTable();
-			getTable2();
-		} catch (Exception e) {
-			JOptionPane.showMessageDialog(this, e.getMessage());
-			e.printStackTrace();
-		}
 
 		//Enter回车事件
 		jList1.addKeyListener(new java.awt.event.KeyAdapter() {
@@ -117,21 +124,6 @@ public class Company extends javax.swing.JFrame {
 				}
 			}
 		});
-	}
-	//设置Jpanel背景
-	public class HomePanel extends JPanel {
-		ImageIcon icon;
-		Image img;
-		public HomePanel() {
-			icon = new ImageIcon(getClass().getResource("/img/main-bg-1.jpg"));
-			img = icon.getImage();
-		}
-
-		public void paintComponent(Graphics g) {
-			super.paintComponent(g);
-			// 下面这行是为了背景图片可以跟随窗口自行调整大小，可以自己设置成固定大小
-			g.drawImage(img, 0, 0, this.getWidth(), this.getHeight(), this);
-		}
 	}
 
 	//GEN-BEGIN:initComponents
@@ -355,7 +347,6 @@ public class Company extends javax.swing.JFrame {
 			}
 		});
 
-		List1();
 		jScrollPane1.setViewportView(jList1);
 
 		javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(
@@ -552,20 +543,6 @@ public class Company extends javax.swing.JFrame {
 		new Login().setVisible(true);
 		this.dispose();
 	}
-
-	/*@SuppressWarnings("unused")
-	private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {
-		try {
-			getTable();
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (ClassNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-	}*/
-
 	/**
 	 * @param args the command line arguments
 	 */

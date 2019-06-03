@@ -19,7 +19,6 @@ import javax.swing.table.DefaultTableModel;
 
 import db.Factory;
 
-import model.Admin;
 import model.User_info;
 
 /**
@@ -63,11 +62,9 @@ public class Administrator extends javax.swing.JFrame {
 		});
 	}
 
-	public static Admin au;
-
 	public static void getTable() throws SQLException, ClassNotFoundException {
 		String title[] = { "邮箱", "姓名", "电话", "身份证号", "密码" };
-		ArrayList<Admin> users = Factory.ViewAllUser(au);
+		ArrayList<User_info> users = Factory.ViewAllUser();
 		Object detail[][] = new Object[users.size()][5];
 		for (int i = 0; i < users.size(); i++) {
 			detail[i][0] = users.get(i).getU_email();
@@ -83,7 +80,7 @@ public class Administrator extends javax.swing.JFrame {
 	public void getTable(User_info a) throws SQLException,
 			ClassNotFoundException {
 		Object title[] = { "邮箱", "姓名", "电话", "身份证号", "密码" };
-		ArrayList<Admin> users = Factory.ViewAllUser(au);
+		ArrayList<User_info> users = Factory.ViewAllUser();
 		Object detail[][] = new Object[users.size()][5];
 
 		detail[0][0] = a.getU_email();
@@ -95,34 +92,15 @@ public class Administrator extends javax.swing.JFrame {
 		this.jTable5.setModel(new DefaultTableModel(detail, title));
 	}
 
-	@SuppressWarnings("static-access")
-	public Administrator(Admin au) {
-		this.au = au;
-		try {
-			initComponents();
-			this.setResizable(false);
-		} catch (SQLException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		} catch (ClassNotFoundException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		}
-		this.setLocationRelativeTo(null);
-		try {
-			getTable();
-		} catch (Exception e) {
-			JOptionPane.showMessageDialog(this, e.getMessage());
-			e.printStackTrace();
-		}
-	}
-
 	/** Creates new form Administrator */
 	public Administrator() {
 		try {
 			initComponents();
 			this.setLocationRelativeTo(null);
 			this.setResizable(false);
+			getTable();
+			List1();
+			List2();
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -286,7 +264,6 @@ public class Administrator extends javax.swing.JFrame {
 			}
 		});
 
-		List2();
 		jScrollPane2.setViewportView(jList2);
 
 		jButton3.setText("\u65b0\u5efa\u516c\u53f8");
@@ -375,7 +352,6 @@ public class Administrator extends javax.swing.JFrame {
 			}
 		});
 
-		List1();
 		jScrollPane1.setViewportView(jList1);
 
 		javax.swing.GroupLayout jPanel7Layout = new javax.swing.GroupLayout(
@@ -570,7 +546,7 @@ public class Administrator extends javax.swing.JFrame {
 			return;
 		}
 		try {
-			a = Factory.ViewUserResult(au, name);
+			a = Factory.ViewUserResult(name);
 			if (a == null)
 				throw new Exception("无此用户");
 			getTable(a);

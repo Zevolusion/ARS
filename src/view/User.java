@@ -20,7 +20,6 @@ import javax.swing.table.DefaultTableModel;
 import db.Factory;
 
 import model.Flight_info;
-import model.User_info;
 
 /**
  *
@@ -30,7 +29,6 @@ import model.User_info;
 public class User extends javax.swing.JFrame {
 
 	/** Creates new form User2 */
-	private User_info u;
 
 	public static void List1() throws SQLException, ClassNotFoundException {
 		jList1.setModel(new javax.swing.AbstractListModel() {
@@ -76,7 +74,7 @@ public class User extends javax.swing.JFrame {
 
 	public void getTable() throws SQLException, ClassNotFoundException {
 		Object title[] = { "航班号", "日期", "出发时间", "到达时间", "始发机场", "目的地" };
-		ArrayList<Flight_info> flights = Factory.ViewAllFlight(u);
+		ArrayList<Flight_info> flights = Factory.ViewAllFlight();
 		Object detail[][] = new Object[flights.size()][6];
 		for (int i = 0; i < flights.size(); i++) {
 			detail[i][0] = flights.get(i).getFlightNumber();
@@ -92,7 +90,7 @@ public class User extends javax.swing.JFrame {
 	public void getTable(Flight_info f) throws SQLException,
 			ClassNotFoundException {
 		Object title[] = { "航班号", "日期", "出发时间", "到达时间", "始发机场", "目的地" };
-		ArrayList<Flight_info> flights = Factory.ViewAllFlight(u);
+		ArrayList<Flight_info> flights = Factory.ViewAllFlight();
 		Object detail[][] = new Object[flights.size()][8];
 
 		detail[0][0] = f.getFlightNumber();
@@ -104,24 +102,36 @@ public class User extends javax.swing.JFrame {
 
 		this.jTable1.setModel(new DefaultTableModel(detail, title));
 	}
+	//设置Jpanel背景
+	public class HomePanel extends JPanel {
+		ImageIcon icon;
+		Image img;
+		public HomePanel() {
+			icon = new ImageIcon(getClass().getResource("/img/main-bg-1.jpg"));
+			img = icon.getImage();
+		}
 
-	public User(User_info u) {
-		this.u = u;
+		public void paintComponent(Graphics g) {
+			super.paintComponent(g);
+			// 下面这行是为了背景图片可以跟随窗口自行调整大小，可以自己设置成固定大小
+			g.drawImage(img, 0, 0, this.getWidth(), this.getHeight(), this);
+		}
+	}
+
+	public User() {
 		try {
 			initComponents();
+			this.setLocationRelativeTo(null);
 			this.setResizable(false);
-		} catch (SQLException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		} catch (ClassNotFoundException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		}
-		this.setLocationRelativeTo(null);
-		try {
 			getTable();
-		} catch (Exception e) {
-			JOptionPane.showMessageDialog(this, e.getMessage());
+			List1();
+			List2();
+			List3();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (ClassNotFoundException e) {
+			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		//Enter回车事件
@@ -143,35 +153,6 @@ public class User extends javax.swing.JFrame {
 				}
 			}
 		});
-	}
-
-	public User() {
-		try {
-			initComponents();
-			this.setLocationRelativeTo(null);
-			this.setResizable(false);
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (ClassNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-	}
-	//设置Jpanel背景
-	public class HomePanel extends JPanel {
-		ImageIcon icon;
-		Image img;
-		public HomePanel() {
-			icon = new ImageIcon(getClass().getResource("/img/main-bg-1.jpg"));
-			img = icon.getImage();
-		}
-
-		public void paintComponent(Graphics g) {
-			super.paintComponent(g);
-			// 下面这行是为了背景图片可以跟随窗口自行调整大小，可以自己设置成固定大小
-			g.drawImage(img, 0, 0, this.getWidth(), this.getHeight(), this);
-		}
 	}
 
 	/** This method is called from within the constructor to
@@ -347,7 +328,6 @@ public class User extends javax.swing.JFrame {
 
 		jLabel3.setText("\u6211\u7684\u8bc4\u8bba\uff1a");
 
-		List1();
 		jScrollPane3.setViewportView(jList1);
 
 		javax.swing.GroupLayout jPanel7Layout = new javax.swing.GroupLayout(
@@ -429,7 +409,6 @@ public class User extends javax.swing.JFrame {
 
 		jTabbedPane1.addTab("\u8bc4\u8bba", jPanel7);
 
-		List2();
 		jScrollPane4.setViewportView(jList2);
 
 		jButton2.setText("\u53d6\u6d88\u6536\u85cf");
@@ -480,7 +459,6 @@ public class User extends javax.swing.JFrame {
 
 		jTabbedPane1.addTab("\u6536\u85cf\u5939", jPanel6);
 
-		List3();
 		jScrollPane5.setViewportView(jList3);
 
 		jButton4.setText("\u5220\u9664\u8ba2\u5355");
@@ -876,7 +854,7 @@ public class User extends javax.swing.JFrame {
 			return;
 		}
 		try {
-			f = Factory.ViewFlightResult(u, des);
+			f = Factory.ViewFlightResult(des);
 			if (f == null)
 				throw new Exception("无此航班");
 			getTable(f);
